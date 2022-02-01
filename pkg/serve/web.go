@@ -6,7 +6,6 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/davecgh/go-spew/spew"
 	"github.com/fusion/golyz/pkg/assets"
 	"github.com/fusion/golyz/pkg/charts"
 	"github.com/fusion/golyz/pkg/data"
@@ -40,18 +39,7 @@ func scriptsHelper(w http.ResponseWriter, _ *http.Request) {
 }
 
 func depsPage(w http.ResponseWriter, r *http.Request) {
-	// TODO Use Query parameters to extract 100% and 1024px from array
-	spew.Dump(r.URL.Query())
-	w_idx, err := strconv.Atoi(r.URL.Query().Get("w_size"))
-	if err != nil || w_idx < 0 || w_idx > 5 {
-		w_idx = 0
-	}
-	w_value := []string{"100%", "1024px", "1536px", "2048px", "3072px", "4096px"}[w_idx]
-	h_idx, err := strconv.Atoi(r.URL.Query().Get("h_size"))
-	if err != nil || h_idx < 0 || h_idx > 2 {
-		h_idx = 0
-	}
-	h_value := []string{"1024px", "1536px", "2048px"}[h_idx]
+	w_value, h_value := getWHFromRequest(r)
 	fmt.Fprintf(w, "%s", renderSingleChart(
 		"deps",
 		charts.RenderSankey(
@@ -61,10 +49,26 @@ func depsPage(w http.ResponseWriter, r *http.Request) {
 			h_value)))
 }
 
-func weightPage(w http.ResponseWriter, _ *http.Request) {
+func weightPage(w http.ResponseWriter, r *http.Request) {
+	w_value, h_value := getWHFromRequest(r)
 	fmt.Fprintf(w, "%s", renderSingleChart(
 		"deps",
 		charts.RenderPie(
 			ll,
-			wrap.MapToPieData(ll, chartsData.Weight))))
+			wrap.MapToPieData(ll, chartsData.Weight),
+			w_value,
+			h_value)))
+}
+
+func getWHFromRequest(r *http.Request) (string, string) {
+	w_idx, err := strconv.Atoi(r.URL.Query().Get("w_size"))
+	if err != nil || w_idx < 0 || w_idx > 5 {
+		w_idx = 0
+	}
+	h_idx, err := strconv.Atoi(r.URL.Query().Get("h_size"))
+	if err != nil || h_idx < 0 || h_idx > 2 {
+		h_idx = 0
+	}
+	return []string{"100%", "1024px", "1536px", "2048px", "3072px", "4096px"}[w_idx],
+		[]string{"1024px", "1536px", "2048px"}[h_idx]
 }

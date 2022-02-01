@@ -12,12 +12,22 @@
 </head>
 
 <body>
- <button id="getdeps" hx-get="/deps" hx-vals='js:{"w_size": global_shared_data("w_size"), "h_size": global_shared_data("h_size")}' hx-swap="none">
-    Deps
-</button>
- <button id="getweight" hx-get="/weight" hx-swap="none">
-    Weight
-</button>
+
+<div class="mx-auto flex flex-col sm:flex-row items-start sm:items-center justify-center p-6">
+    <div class="flex items-start mt-4 sm:mt-0 sm:ml-4">
+        <div role="tablist" aria-label="filter content by" class="border flex bg-white text-gray-500 shadow rounded">
+            <button role="tab" class="py-3 px-5 flex items-center justify-center text-xs focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-300 focus:ring-gray-800 rounded"
+                id="getdeps" hx-get="/deps" hx-vals='js:{"w_size": global_shared_data("w_size"), "h_size": global_shared_data("h_size")}' hx-swap="none">
+            Dependencies
+            </button>
+            <button role="tab" class="py-3 px-5 flex items-center justify-center text-xs focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-300 focus:ring-gray-800 rounded border border-l border-r-0 border-b-0 border-t-0 border-indigo-100"
+                id="getweight" hx-get="/weight" hx-swap="none">
+            Packages Weight
+            </button>
+        </div>
+    </div>
+</div>
+
 <div id="mainchart">
 </div>
 </body>

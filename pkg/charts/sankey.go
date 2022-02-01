@@ -35,10 +35,5 @@ func RenderSankey(l *log.Logger, data wrap.SankeyData, desiredWidth string, desi
 			}),
 	)
 
-	//buf := new(bytes.Buffer)
-	//page := components.NewPage()
-	//page.AddCharts(chart)
-	//page.Render(buf)
-	//chart.Render(buf)
 	return chart
 }

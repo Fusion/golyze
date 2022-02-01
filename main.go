@@ -7,15 +7,20 @@ import (
 	"github.com/fusion/golyz/pkg/data"
 	"github.com/fusion/golyz/pkg/deps"
 	"github.com/fusion/golyz/pkg/serve"
+	"github.com/fusion/golyz/pkg/weight"
 	//"github.com/davecgh/go-spew/spew"
 )
 
 func main() {
+	Dev := false
+
 	l := log.New(os.Stderr, "", 0)
 
 	var chartsData data.ChartsData
 
-	//chartsData.Weight = weight.BuildWeightData(l)
+	if !Dev {
+		chartsData.Weight = weight.BuildWeightData(l)
+	}
 	chartsData.Deps = deps.BuildDepsData(l)
 
 	serve.RunWebServer(l, &chartsData)

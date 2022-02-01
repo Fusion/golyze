@@ -2,8 +2,13 @@ const w_sizes_mapping = ["100%", "1024px", "1536px", "2048px", "3072px", "4096px
 const h_sizes_mapping = ["1024px", "1536px", "2048px"];
 
 $global_shared_data = {
+    "context": "",
     "w_size": 0,
     "h_size": 0
+}
+
+function global_shared_data(key) {
+    return $global_shared_data[key]
 }
 
 function size_handler() {
@@ -29,11 +34,11 @@ function size_handler() {
         update_size() {
             $global_shared_data["w_size"] = this.w_size
             $global_shared_data["h_size"] = this.h_size
-            htmx.trigger(htmx.find("#getdeps"), "click")
+            htmx.trigger(htmx.find('#'+$global_shared_data["context"]), "click")
         }
     }
 }
 
-function global_shared_data(key) {
-    return $global_shared_data[key]
-}
+htmx.on("htmx:beforeSend", function(evt) {
+    $global_shared_data["context"] = evt.detail.elt.id;
+});
