@@ -14,7 +14,7 @@ func RenderPie(l *log.Logger, pieData []opts.PieData) *charts.Pie {
 			opts.Initialization{
 				AssetsHost: "https://cdn.jsdelivr.net/npm/echarts@5.3.0/dist/",
 				Theme:      "white", // Could be 'dark'
-				Width:      "1024px",
+				Width:      "100%",
 				Height:     "1024px",
 			}),
 		charts.WithTooltipOpts(

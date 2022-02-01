@@ -1,10 +1,33 @@
 {{- define "base" }}
+
+<div x-data="size_handler()" x-init="init_size_watcher" class="max-w-screen-xl mx-auto">
+  <input class="w-full border" type="input" x-model="w_mapped_size" />
+  <input @mouseup="update_size($event)" class="w-full" type="range" x-model="w_size" min="0" max="5" step="1">
+  <input class="w-full border" type="input" x-model="h_mapped_size" />
+  <input @mouseup="update_size($event)" class="w-full" type="range" x-model="h_size" min="0" max="2" step="1">
+</div>
+
 <div class="container">
     <div class="item" id="{{ .ChartID }}" style="width:{{ .Initialization.Width }};height:{{ .Initialization.Height }};"></div>
 </div>
 
-<script type="text/javascript">
-    "use strict";
+<script>
+    // **groan** this is dirty
+    var w_size = 0;
+    for(i=0;i<w_sizes_mapping.length;i++) {
+      if("{{ .Initialization.Width }}" == w_sizes_mapping[i]) {
+        $global_shared_data["w_size"] = i;
+        break;
+      }
+    }
+    var h_size = 0;
+    for(i=0;i<h_sizes_mapping.length;i++) {
+      if("{{ .Initialization.Height }}" == h_sizes_mapping[i]) {
+        $global_shared_data["h_size"] = i;
+        break;
+      }
+    }
+
     let goecharts_{{ .ChartID | safeJS }} = echarts.init(document.getElementById('{{ .ChartID | safeJS }}'), "{{ .Theme }}");
     let option_{{ .ChartID | safeJS }} = {{ .JSONNotEscaped | safeJS }};
     goecharts_{{ .ChartID | safeJS }}.setOption(option_{{ .ChartID | safeJS }});

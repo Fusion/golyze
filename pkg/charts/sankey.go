@@ -8,15 +8,15 @@ import (
 	"github.com/go-echarts/go-echarts/v2/opts"
 )
 
-func RenderSankey(l *log.Logger, data wrap.SankeyData) *charts.Sankey {
+func RenderSankey(l *log.Logger, data wrap.SankeyData, desiredWidth string, desiredHeight string) *charts.Sankey {
 	chart := charts.NewSankey()
 	chart.SetGlobalOptions(
 		charts.WithInitializationOpts(
 			opts.Initialization{
 				AssetsHost: "https://cdn.jsdelivr.net/npm/echarts@5.3.0/dist/",
 				Theme:      "white", // Could be 'dark'
-				Width:      "1024px",
-				Height:     "1024px",
+				Width:      desiredWidth,
+				Height:     desiredHeight,
 			}),
 		charts.WithTooltipOpts(
 			opts.Tooltip{
